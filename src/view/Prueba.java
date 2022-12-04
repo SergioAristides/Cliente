@@ -6,11 +6,8 @@ package view;
 
 import controler.ControlerMovie;
 import controler.ControlerUser;
-import exceptions.notFoundException;
 import java.awt.Image;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -41,57 +38,12 @@ public class Prueba extends javax.swing.JFrame {
         Service service = new Service(urlServer);
         this.controlerMovie = new ControlerMovie(service);
         this.controlerUser = new ControlerUser(service);
-        //tableUserUpdate(this.controlerUser.toList());
-        tableMovieUpdate(this.controlerMovie.toList());
-        tableUserUpdate(controlerUser.toList());
+        toList();
+
 
     }
 
-    public void tableUserUpdate(LinkedList<User> listUsers) {
-        String columName[] = {"Id", "Name", "ticket", "identification", "birth of Date"};
-        DefaultTableModel miModelo = new DefaultTableModel(null, columName);
-        this.tblUsers.setModel(miModelo);
-
-        for (User user : listUsers) {
-            String fila[] = new String[columName.length];
-            fila[0] = user.getId();
-            fila[1] = user.getName();
-            fila[2] = "" + user.getTicket();
-            fila[3] = "" + user.getIdent();
-            fila[4] = "" + user.getBirthDate();
-            miModelo.addRow(fila);
-
-        }
-
-    }
-
-    public boolean checkNotTicket(User user) {
-        boolean bandera = true;
-
-        if (user.getTicket() != null) {
-            bandera = false;
-        }
-
-        return bandera;
-    }
-
-    public void tableMovieUpdate(LinkedList<Movie> listMovies) {
-        String columName[] = {"Id", "Name", "year", "type"};
-        DefaultTableModel miModelo = new DefaultTableModel(null, columName);
-        this.tblMovie.setModel(miModelo);
-        for (Movie actual : listMovies) {
-            String fila[] = new String[columName.length];
-            fila[0] = actual.getId();
-            fila[1] = actual.getName();
-            fila[2] = "" + actual.getYear();
-            fila[3] = "" + actual.getType();
-            miModelo.addRow(fila);
-        }
-
-    }
     
-    
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -141,7 +93,7 @@ public class Prueba extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblUserTicket = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
@@ -187,6 +139,8 @@ public class Prueba extends javax.swing.JFrame {
         jLabel32 = new javax.swing.JLabel();
         Delete = new javax.swing.JLabel();
         lblFondoMovie = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        lblFondFandR = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1300, 670));
@@ -349,7 +303,7 @@ public class Prueba extends javax.swing.JFrame {
 
         jPanelTicket.add(fondo2Ticket, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 320, 200));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblUserTicket.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -360,7 +314,7 @@ public class Prueba extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tblUserTicket);
 
         jPanelTicket.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 60, 440, 310));
 
@@ -566,6 +520,11 @@ public class Prueba extends javax.swing.JFrame {
 
         jTabbedPaneTicket.addTab("Movies", jPanelMovie);
 
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel5.add(lblFondFandR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 670));
+
+        jTabbedPaneTicket.addTab("Functions and rooms", jPanel5);
+
         jDesktopPane1.add(jTabbedPaneTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 670));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -593,12 +552,10 @@ public class Prueba extends javax.swing.JFrame {
         if (txtUserBirthDatUser.getText().equals("") || txtUserIdentUser.getText().equals("") || txtUserNameUser.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Por favor llene tdos los campos");
 
-        
-
         } else {
-                User user= new User(txtUserNameUser.getText(),txtUserIdentUser.getText(),txtUserBirthDatUser.getText());
-                controlerUser.create(user);
-                tableUserUpdate(controlerUser.toList());
+            User user = new User(txtUserNameUser.getText(), txtUserIdentUser.getText(), txtUserBirthDatUser.getText());
+            controlerUser.create(user);
+            tableUserUpdate(controlerUser.toList());
         }
         borrarFormUser();
     }//GEN-LAST:event_btnUsersCreateActionPerformed
@@ -606,14 +563,14 @@ public class Prueba extends javax.swing.JFrame {
 
     private void btnUsersUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsersUpdateActionPerformed
         // TODO add your handling code here:
-        if(txtUserBirthDatUser.getText().equals("")||txtUserIdentUser.getText().equals("")||
-                txtUserNameUser.getText().equals("")||txtUserIdUser.getText().equals("")){
-            JOptionPane.showMessageDialog(null,"Press search by id");
-        }else{
-            String name=txtUserNameUser.getText();
-            String ident=txtUserIdentUser.getText();
-            String BirthOfDate=txtUserBirthDatUser.getText();
-            User user= new User(name, ident, BirthOfDate);
+        if (txtUserBirthDatUser.getText().equals("") || txtUserIdentUser.getText().equals("")
+                || txtUserNameUser.getText().equals("") || txtUserIdUser.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Press search by id");
+        } else {
+            String name = txtUserNameUser.getText();
+            String ident = txtUserIdentUser.getText();
+            String BirthOfDate = txtUserBirthDatUser.getText();
+            User user = new User(name, ident, BirthOfDate);
             user.setId(txtUserIdUser.getText());
             controlerUser.update(user);
             tableUserUpdate(controlerUser.toList());
@@ -623,10 +580,10 @@ public class Prueba extends javax.swing.JFrame {
 
     private void btnUsersDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsersDeleteActionPerformed
         // TODO add your handling code here:
-        if(txtUserIdUser.getText().equals("")){
-            JOptionPane.showMessageDialog(this,"llene el campo id");
-        }else{
-            User user= new User();
+        if (txtUserIdUser.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "llene el campo id");
+        } else {
+            User user = new User();
             user.setId(txtUserIdUser.getText());
             controlerUser.delete(user);
             tableUserUpdate(controlerUser.toList());
@@ -648,12 +605,12 @@ public class Prueba extends javax.swing.JFrame {
 
     private void btnMovieCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMovieCreateActionPerformed
         // TODO add your handling code here:
-        if(txtNameMovie.getText().equals("")||txtYearMovie.getText().equals("")){
-          JOptionPane.showMessageDialog(null, "por favor llene todos los campos");
-       }else{
-       Movie movie= new Movie( txtNameMovie.getText(), Integer.parseInt(txtYearMovie.getText()), boxTypeMovie.getSelectedItem().toString());
-       this.controlerMovie.create(movie);
-       tableMovieUpdate(this.controlerMovie.toList());
+        if (txtNameMovie.getText().equals("") || txtYearMovie.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "por favor llene todos los campos");
+        } else {
+            Movie movie = new Movie(txtNameMovie.getText(), Integer.parseInt(txtYearMovie.getText()), boxTypeMovie.getSelectedItem().toString());
+            this.controlerMovie.create(movie);
+            tableMovieUpdate(this.controlerMovie.toList());
         }
         borrarFormMovie();
     }//GEN-LAST:event_btnMovieCreateActionPerformed
@@ -662,25 +619,24 @@ public class Prueba extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (txtMovieID.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "debe insertar el codigo");
-        }else{
-            
-                Movie movie;
-                
-                movie = this.controlerMovie.watch(this.txtMovieID.getText());
-                if (movie != null) {
-                    this.txtNameMovie.setText(movie.getName());
-                    this.txtYearMovie.setText(movie.getYear() + "");
-                    System.out.println(searchYear(movie));
-                    this.boxTypeMovie.setSelectedIndex(searchYear(movie));
-                    this.txtNameMovie.setText(movie.getName());
-                    
-                } else {
-                    JOptionPane.showMessageDialog(null, "Username does not exist");
-                }   
-           
+        } else {
+
+            Movie movie;
+
+            movie = this.controlerMovie.watch(this.txtMovieID.getText());
+            if (movie != null) {
+                this.txtNameMovie.setText(movie.getName());
+                this.txtYearMovie.setText(movie.getYear() + "");
+                System.out.println(searchYear(movie));
+                this.boxTypeMovie.setSelectedIndex(searchYear(movie));
+                this.txtNameMovie.setText(movie.getName());
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Username does not exist");
+            }
 
         }
-    
+
         //borrarFormMovie();
     }//GEN-LAST:event_btnMovieSearchActionPerformed
 
@@ -692,15 +648,15 @@ public class Prueba extends javax.swing.JFrame {
     private void btnUsersSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsersSearchActionPerformed
         if (txtUserIdUser.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "debe insertar el codigo");
-        }else{
-        User user = this.controlerUser.watch(this.txtUserIdUser.getText());
-        if (user != null) {
-            this.txtUserIdentUser.setText(user.getIdent());
-            this.txtUserNameUser.setText(user.getName());
-            this.txtUserBirthDatUser.setText(user.getBirthDate());
         } else {
-            JOptionPane.showMessageDialog(null, "Username does not exist");
-        }
+            User user = this.controlerUser.watch(this.txtUserIdUser.getText());
+            if (user != null) {
+                this.txtUserIdentUser.setText(user.getIdent());
+                this.txtUserNameUser.setText(user.getName());
+                this.txtUserBirthDatUser.setText(user.getBirthDate());
+            } else {
+                JOptionPane.showMessageDialog(null, "Username does not exist");
+            }
         }
     }//GEN-LAST:event_btnUsersSearchActionPerformed
 
@@ -712,7 +668,7 @@ public class Prueba extends javax.swing.JFrame {
             String name = txtNameMovie.getText();
             int year = Integer.parseInt(txtYearMovie.getText());
             String type = boxTypeMovie.getSelectedItem().toString();
-            Movie movie = new Movie(name,year,type);
+            Movie movie = new Movie(name, year, type);
             movie.setId(txtMovieID.getText());
             this.controlerMovie.update(movie);
             tableMovieUpdate(this.controlerMovie.toList());
@@ -722,15 +678,15 @@ public class Prueba extends javax.swing.JFrame {
 
     private void btnMovieDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMovieDeleteActionPerformed
         // TODO add your handling code here:
-        if(txtMovieID.getText().equals("")){
-            JOptionPane.showMessageDialog(this,"por favor inserte el id a ser eliminado");
-        }else{
-        
-        Movie movie = new Movie();
-        movie.setId(txtMovieID.getText());
-        this.controlerMovie.delete(movie);
-        tableMovieUpdate(this.controlerMovie.toList());
-        borrarFormMovie();
+        if (txtMovieID.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "por favor inserte el id a ser eliminado");
+        } else {
+
+            Movie movie = new Movie();
+            movie.setId(txtMovieID.getText());
+            this.controlerMovie.delete(movie);
+            tableMovieUpdate(this.controlerMovie.toList());
+            borrarFormMovie();
         }
     }//GEN-LAST:event_btnMovieDeleteActionPerformed
 
@@ -754,6 +710,7 @@ public class Prueba extends javax.swing.JFrame {
         setImage(lblFondoTicket, "src/image/fondo.jpg");
         setImage(lblUsers, "src/image/fondo.jpg");
         setImage(lblFondoMovie, "src/image/fondo.jpg");
+        setImage(lblFondFandR, "src/image/fondo.jpg");
 
     }
 
@@ -786,13 +743,13 @@ public class Prueba extends javax.swing.JFrame {
         txtYearMovie.setText("");
         boxTypeMovie.setSelectedIndex(0);
     }
+
     public void borrarFormUser() {
         txtUserBirthDatUser.setText("");
         txtUserIdUser.setText("");
         txtUserIdentUser.setText("");
         txtUserNameUser.setText("");
     }
-    
 
     public Icon SetIcon(String url, JButton boton) {
         ImageIcon icon = new ImageIcon(getClass().getResource(url));
@@ -800,6 +757,75 @@ public class Prueba extends javax.swing.JFrame {
         int alto = boton.getHeight();
         ImageIcon icono = new ImageIcon(icon.getImage().getScaledInstance(ancho, alto, Image.SCALE_DEFAULT));
         return icono;
+    }
+
+    public void tableUserUpdate(LinkedList<User> listUsers) {
+        String columName[] = {"Id", "Name", "ticket", "identification", "birth of Date"};
+        DefaultTableModel miModelo = new DefaultTableModel(null, columName);
+        this.tblUsers.setModel(miModelo);
+
+        for (User user : listUsers) {
+            String fila[] = new String[columName.length];
+            fila[0] = user.getId();
+            fila[1] = user.getName();
+            fila[2] = "" + user.getTicket();
+            fila[3] = "" + user.getIdent();
+            fila[4] = "" + user.getBirthDate();
+            miModelo.addRow(fila);
+
+        }
+
+    }
+    public void tableUserTicket(LinkedList<User> listUsers) {
+        String columName[] = {"Id", "Name", "ticket", "identification", "birth of Date"};
+        DefaultTableModel miModelo = new DefaultTableModel(null, columName);
+        this.tblUserTicket.setModel(miModelo);
+
+        for (User user : listUsers) {
+            String fila[] = new String[columName.length];
+            fila[0] = user.getId();
+            fila[1] = user.getName();
+            fila[2] = "" + user.getTicket();
+            fila[3] = "" + user.getIdent();
+            fila[4] = "" + user.getBirthDate();
+            miModelo.addRow(fila);
+
+        }
+
+    }
+    
+   
+    public boolean checkNotTicket(User user) {
+        boolean bandera = true;
+
+        if (user.getTicket() != null) {
+            bandera = false;
+        }
+
+        return bandera;
+    }
+
+    public void tableMovieUpdate(LinkedList<Movie> listMovies) {
+        String columName[] = {"Id", "Name", "year", "type"};
+        DefaultTableModel miModelo = new DefaultTableModel(null, columName);
+        this.tblMovie.setModel(miModelo);
+        for (Movie actual : listMovies) {
+            String fila[] = new String[columName.length];
+            fila[0] = actual.getId();
+            fila[1] = actual.getName();
+            fila[2] = "" + actual.getYear();
+            fila[3] = "" + actual.getType();
+            miModelo.addRow(fila);
+        }
+
+    }
+    
+    
+    public void toList() {
+        tableMovieUpdate(this.controlerMovie.toList());
+        tableUserUpdate(controlerUser.toList());
+        tableUserTicket(controlerUser.toList());
+
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Delete;
@@ -863,6 +889,7 @@ public class Prueba extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanelMovie;
     private javax.swing.JPanel jPanelTicket;
     private javax.swing.JPanel jPanelUsers;
@@ -870,14 +897,15 @@ public class Prueba extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPaneTicket;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JLabel lblFondFandR;
     private javax.swing.JLabel lblFondoMovie;
     private javax.swing.JLabel lblFondoTicket;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblUserId;
     private javax.swing.JLabel lblUsers;
     private javax.swing.JTable tblMovie;
+    private javax.swing.JTable tblUserTicket;
     private javax.swing.JTable tblUsers;
     private javax.swing.JTextField txtIdPanelTicket;
     private javax.swing.JTextField txtMovieID;

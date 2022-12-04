@@ -98,7 +98,6 @@ public class View extends javax.swing.JFrame {
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
                 Prueba p= new Prueba();
                 p.setVisible(true);
-
                 this.dispose();
         
     }//GEN-LAST:event_btnIngresarActionPerformed
