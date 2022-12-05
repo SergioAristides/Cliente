@@ -31,11 +31,18 @@ public class LivingRoom {
     }
     
         public void toObject(JSONObject livingRoomJSON){
-        this.id=livingRoomJSON.get("id").toString();
+        this.id=(String)livingRoomJSON.get("_id");
         this.name=(String)livingRoomJSON.get("name");
-        this.specialEfects=(Boolean)livingRoomJSON.get("specialEfects");
+        this.specialEfects=(boolean)livingRoomJSON.get("special_effects");
         //this.listFunction
         //this.listChair
+    }
+        
+        public JSONObject toJSON() {
+        JSONObject roomJSON=new JSONObject();
+        roomJSON.put("name", this.getName());
+        roomJSON.put("special_effects", this.isSpecialEfects());
+      return roomJSON;
     }
 
     /**

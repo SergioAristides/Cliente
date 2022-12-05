@@ -29,13 +29,29 @@ public class Function {
     }
     
     public void toObject(JSONObject functionJSON){
-        this.id=functionJSON.get("id").toString();
-        this.hour=(int)functionJSON.get("hour");
-        this.refMovie=(Movie)functionJSON.get("function");
-        //this.refLivingRoom=(LivingRoom)functionJSON.get("livingRoom");
+        this.refLivingRoom = new LivingRoom();
+        this.refMovie = new Movie();
+        this.id=(String)functionJSON.get("_id");
+        this.hour=(long)functionJSON.get("hour");
+        this.date = (String) functionJSON.get("date");
+        System.out.println("bien");
+        this.refMovie.toObject((JSONObject) functionJSON.get("movie"));
+        System.out.println("leuo pelicula");
+        this.refLivingRoom.toObject((JSONObject) functionJSON.get("room"));
+      //  this.refLivingRoom=(LivingRoom)functionJSON.get("room");
         //this.listicket
         
         
+    }
+    
+    public JSONObject toJSON() {
+        JSONObject functionJSON=new JSONObject();
+        functionJSON.put("_id", this.getId());
+        functionJSON.put("hour", this.getHour());
+        functionJSON.put("date", this.getDate());
+        functionJSON.put("movie", this.refMovie.toJSON());
+        functionJSON.put("room", this.refLivingRoom.toJSON());
+        return functionJSON;
     }
 
     /**

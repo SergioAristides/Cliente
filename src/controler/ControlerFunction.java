@@ -33,6 +33,7 @@ public class ControlerFunction {
     public Function watch(String id) {
         Function theFunction = null;
         String response = serviceFunction.GET("functions/" + id);
+        
         try {
             JSONParser parser = new JSONParser();
             JSONObject functionJSON = (JSONObject) parser.parse(response);
@@ -62,12 +63,7 @@ public class ControlerFunction {
         return listFunction;
     }
         
-        public boolean edit(Function theFunction) {
-        boolean response = false;
-
-        return response;
-    }
-
+      
     public boolean delete(Function theFunction) {
         boolean response = false;
 

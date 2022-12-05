@@ -4,17 +4,23 @@
  */
 package view;
 
+import controler.ControlerEmployee;
 import java.awt.Image;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import model.Employee;
+import service.Service;
 
 /**
  *
  * @author sergi
  */
 public class View extends javax.swing.JFrame {
-
+    ControlerEmployee controllerEmployee;
     /**
      * Creates new form View
      */
@@ -23,6 +29,9 @@ public class View extends javax.swing.JFrame {
         this.setSize(1300, 670);
         this.setLocationRelativeTo(null);
         setImage(lblUser, "src/image/usuario.png");
+        String urlServer = "http://localhost:8080/";
+        Service service = new Service(urlServer);
+        this.controllerEmployee = new ControlerEmployee(service);
 
     }
 
@@ -38,7 +47,7 @@ public class View extends javax.swing.JFrame {
         lblUser = new javax.swing.JLabel();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jLabel2 = new javax.swing.JLabel();
-        txtUser1 = new javax.swing.JTextField();
+        txtEmployee = new javax.swing.JTextField();
         txtPassword = new javax.swing.JPasswordField();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -55,20 +64,19 @@ public class View extends javax.swing.JFrame {
         jDesktopPane1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel2.setText("Employee:");
-        jDesktopPane1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 240, 130, 100));
+        jLabel2.setText("Employee user name:");
+        jDesktopPane1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 240, 270, 100));
 
-        txtUser1.setBackground(new java.awt.Color(230, 235, 240));
-        txtUser1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        txtUser1.addActionListener(new java.awt.event.ActionListener() {
+        txtEmployee.setBackground(new java.awt.Color(230, 235, 240));
+        txtEmployee.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        txtEmployee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtUser1ActionPerformed(evt);
+                txtEmployeeActionPerformed(evt);
             }
         });
-        jDesktopPane1.add(txtUser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 340, 230, 30));
+        jDesktopPane1.add(txtEmployee, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 340, 230, 30));
 
         txtPassword.setBackground(new java.awt.Color(230, 235, 240));
-        txtPassword.setText("jPasswordField1");
         jDesktopPane1.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 460, 230, 30));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -91,17 +99,31 @@ public class View extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtUser1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUser1ActionPerformed
+    private void txtEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmployeeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtUser1ActionPerformed
+    }//GEN-LAST:event_txtEmployeeActionPerformed
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-                Prueba p= new Prueba();
-                p.setVisible(true);
+               if (this.validateEmployee() ){
+                   Prueba p= new Prueba();
+                    p.setVisible(true);
                 this.dispose();
-        
+               } else {
+                    JOptionPane.showMessageDialog(null, "usuario o contraseña invalidos");
+               }
+               
     }//GEN-LAST:event_btnIngresarActionPerformed
 
+    public boolean validateEmployee(){
+        LinkedList <Employee> employees = controllerEmployee.toList();
+        for (Employee employee:employees){
+            if (employee.getUserName().equals(this.txtEmployee.getText()) && employee.getPassword().equals(this.txtPassword.getText())){
+                return true;
+            }
+        }
+        return true;
+        
+    }
     /**
      * @param args the command line arguments
      */
@@ -157,7 +179,7 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblUser;
+    private javax.swing.JTextField txtEmployee;
     private javax.swing.JPasswordField txtPassword;
-    private javax.swing.JTextField txtUser1;
     // End of variables declaration//GEN-END:variables
 }

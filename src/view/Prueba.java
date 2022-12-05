@@ -4,9 +4,15 @@
  */
 package view;
 
+import controler.ControlerChair;
+import controler.ControlerFunction;
+import controler.ControlerLivingRoom;
 import controler.ControlerMovie;
+import controler.ControlerTicket;
 import controler.ControlerUser;
 import java.awt.Image;
+import static java.lang.Double.parseDouble;
+import static java.lang.Integer.parseInt;
 import java.util.LinkedList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -14,7 +20,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.Chair;
+import model.Function;
 import model.Movie;
+import model.Ticket;
 import model.User;
 import service.Service;
 
@@ -29,6 +38,9 @@ public class Prueba extends javax.swing.JFrame {
      */
     ControlerMovie controlerMovie;
     ControlerUser controlerUser;
+    ControlerChair controlerChair;
+    ControlerFunction controlerFunction;
+    ControlerTicket controlerTickets;
 
     public Prueba() {
         initComponents();
@@ -38,6 +50,9 @@ public class Prueba extends javax.swing.JFrame {
         Service service = new Service(urlServer);
         this.controlerMovie = new ControlerMovie(service);
         this.controlerUser = new ControlerUser(service);
+        this.controlerChair = new ControlerChair(service);
+        this.controlerFunction = new ControlerFunction(service);
+        this.controlerTickets = new ControlerTicket(service);
         toList();
 
 
@@ -84,36 +99,26 @@ public class Prueba extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnTicketCreate = new javax.swing.JButton();
         btnTicketUpdate = new javax.swing.JButton();
-        btnTicketTolist = new javax.swing.JButton();
-        btnTicketSearch = new javax.swing.JButton();
         fondo2Ticket = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtPay = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        comboType = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblUserTicket = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tblFunction = new javax.swing.JTable();
         lblUserId = new javax.swing.JLabel();
-        txtIdPanelTicket = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        jLabel20 = new javax.swing.JLabel();
-        jComboBox5 = new javax.swing.JComboBox<>();
-        jLabel21 = new javax.swing.JLabel();
-        btnTicketDelete = new javax.swing.JButton();
-        jLabel22 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tblchair = new javax.swing.JTable();
+        jLabel25 = new javax.swing.JLabel();
+        comboTickets = new javax.swing.JComboBox<>();
+        comboUsers = new javax.swing.JComboBox<>();
         jLabel23 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
-        jLabel25 = new javax.swing.JLabel();
         lblFondoTicket = new javax.swing.JLabel();
         jPanelMovie = new javax.swing.JPanel();
         lblTitulo = new javax.swing.JLabel();
@@ -140,7 +145,14 @@ public class Prueba extends javax.swing.JFrame {
         Delete = new javax.swing.JLabel();
         lblFondoMovie = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        lblFondFandR = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblTickets = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        txtId = new javax.swing.JTextField();
+        lblInfo = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1300, 670));
@@ -261,7 +273,12 @@ public class Prueba extends javax.swing.JFrame {
         jPanelTicket.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 10, 90, -1));
 
         btnTicketCreate.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jPanelTicket.add(btnTicketCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 520, 120, 80));
+        btnTicketCreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTicketCreateActionPerformed(evt);
+            }
+        });
+        jPanelTicket.add(btnTicketCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 510, 120, 80));
 
         btnTicketUpdate.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         btnTicketUpdate.addActionListener(new java.awt.event.ActionListener() {
@@ -269,18 +286,7 @@ public class Prueba extends javax.swing.JFrame {
                 btnTicketUpdateActionPerformed(evt);
             }
         });
-        jPanelTicket.add(btnTicketUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 520, 110, 80));
-
-        btnTicketTolist.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jPanelTicket.add(btnTicketTolist, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 520, 110, 80));
-
-        btnTicketSearch.setFont(new java.awt.Font("Lucida Sans Typewriter", 3, 14)); // NOI18N
-        btnTicketSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTicketSearchActionPerformed(evt);
-            }
-        });
-        jPanelTicket.add(btnTicketSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 510, 120, 90));
+        jPanelTicket.add(btnTicketUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 510, 110, 80));
 
         fondo2Ticket.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         fondo2Ticket.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -288,22 +294,29 @@ public class Prueba extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel5.setText("Type:");
         fondo2Ticket.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 100, 30));
-        fondo2Ticket.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 220, 20));
+        fondo2Ticket.add(txtPay, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, 220, 30));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel7.setText("Pay value:");
         fondo2Ticket.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 100, 30));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        fondo2Ticket.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 110, -1, -1));
+        comboType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Adult", "Children" }));
+        fondo2Ticket.add(comboType, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 110, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
-        jLabel3.setText("Ticket");
-        fondo2Ticket.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, -1, -1));
+        jLabel3.setText("Ticket information");
+        fondo2Ticket.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
 
-        jPanelTicket.add(fondo2Ticket, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 320, 200));
+        jPanelTicket.add(fondo2Ticket, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 100, 340, 200));
 
-        tblUserTicket.setModel(new javax.swing.table.DefaultTableModel(
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
+        jLabel4.setText("Choose a function");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, -1, -1));
+
+        tblFunction.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -314,96 +327,68 @@ public class Prueba extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(tblUserTicket);
+        jScrollPane6.setViewportView(tblFunction);
 
-        jPanelTicket.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 60, 440, 310));
+        jPanel2.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, 360, 200));
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
-        jLabel4.setText("Function");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, -1, -1));
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel2.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 60, -1, -1));
-
-        jLabel16.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jLabel16.setText("Date:");
-        jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 60, -1, -1));
-
-        jLabel17.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jLabel17.setText("Hour:");
-        jPanel2.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
-
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel2.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, -1, -1));
-
-        jPanelTicket.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, 300, 200));
+        jPanelTicket.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 100, 480, 260));
 
         lblUserId.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        lblUserId.setText("User Id:");
-        jPanelTicket.add(lblUserId, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 70, 30));
-        jPanelTicket.add(txtIdPanelTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 220, -1));
+        lblUserId.setText("User Identification:");
+        jPanelTicket.add(lblUserId, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, 170, 30));
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
-        jLabel18.setText("Chair");
-        jPanel3.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(99, 7, -1, -1));
+        jLabel18.setText("Choose a chair");
+        jPanel3.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, -1, -1));
 
-        jLabel19.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jLabel19.setText("num:");
-        jPanel3.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, 60, 20));
+        tblchair.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane5.setViewportView(tblchair);
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox4.addActionListener(new java.awt.event.ActionListener() {
+        jPanel3.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 300, 160));
+
+        jPanelTicket.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, 340, 250));
+
+        jLabel25.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        jLabel25.setText("Create");
+        jPanelTicket.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 470, -1, -1));
+
+        comboTickets.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox4ActionPerformed(evt);
+                comboTicketsActionPerformed(evt);
             }
         });
-        jPanel3.add(jComboBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 60, -1, -1));
+        jPanelTicket.add(comboTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 500, -1, -1));
 
-        jLabel20.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jLabel20.setText("Letter:");
-        jPanel3.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 60, 20));
-
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox5.addActionListener(new java.awt.event.ActionListener() {
+        comboUsers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox5ActionPerformed(evt);
+                comboUsersActionPerformed(evt);
             }
         });
-        jPanel3.add(jComboBox5, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, -1, -1));
-
-        jPanelTicket.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 90, 280, 200));
-
-        jLabel21.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        jLabel21.setText("To list");
-        jPanelTicket.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 470, -1, -1));
-
-        btnTicketDelete.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jPanelTicket.add(btnTicketDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 520, 110, 80));
-
-        jLabel22.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        jLabel22.setText("Search");
-        jPanelTicket.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 470, -1, -1));
+        jPanelTicket.add(comboUsers, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 60, 110, -1));
 
         jLabel23.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        jLabel23.setText("Create");
-        jPanelTicket.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 470, -1, -1));
+        jLabel23.setText("Select an id ticket for update it");
+        jPanelTicket.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 460, -1, -1));
 
         jLabel24.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         jLabel24.setText("Update");
-        jPanelTicket.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 470, -1, -1));
-
-        jLabel25.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        jLabel25.setText("Delete");
-        jPanelTicket.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 470, -1, -1));
+        jPanelTicket.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 470, -1, -1));
 
         lblFondoTicket.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        jPanelTicket.add(lblFondoTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 670));
+        jPanelTicket.add(lblFondoTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(-210, 40, 1300, 670));
 
         jTabbedPaneTicket.addTab("Tickets", jPanelTicket);
 
@@ -516,14 +501,41 @@ public class Prueba extends javax.swing.JFrame {
         jPanelMovie.add(Delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 410, -1, -1));
 
         lblFondoMovie.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        jPanelMovie.add(lblFondoMovie, new org.netbeans.lib.awtextra.AbsoluteConstraints(-40, -40, 1300, 670));
+        jPanelMovie.add(lblFondoMovie, new org.netbeans.lib.awtextra.AbsoluteConstraints(-30, 0, 1300, 670));
 
         jTabbedPaneTicket.addTab("Movies", jPanelMovie);
 
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel5.add(lblFondFandR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 670));
 
-        jTabbedPaneTicket.addTab("Functions and rooms", jPanel5);
+        jScrollPane2.setViewportView(tblTickets);
+
+        jPanel5.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 700, 300));
+
+        jButton1.setText("Delete");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 250, -1, -1));
+
+        jButton2.setText("Search");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 90, -1, -1));
+        jPanel5.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 160, 160, 20));
+        jPanel5.add(lblInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 370, 690, 250));
+
+        jLabel17.setText("(Insert Id)");
+        jPanel5.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 130, -1, -1));
+
+        jLabel19.setText("select item from de table to delete it ");
+        jPanel5.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 290, -1, -1));
+
+        jTabbedPaneTicket.addTab("Tickets Information", jPanel5);
 
         jDesktopPane1.add(jTabbedPaneTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 670));
 
@@ -542,10 +554,6 @@ public class Prueba extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnTicketSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTicketSearchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnTicketSearchActionPerformed
 
     private void btnUsersCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsersCreateActionPerformed
         // TODO add your handling code here:
@@ -591,16 +599,29 @@ public class Prueba extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnUsersDeleteActionPerformed
 
-    private void jComboBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox5ActionPerformed
-
-    private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox4ActionPerformed
-
     private void btnTicketUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTicketUpdateActionPerformed
-        // TODO add your handling code here:
+       if(this.comboTickets.getSelectedIndex() != -1){
+         if (!this.txtPay.getText().equals("")){
+            String id  = (String)this.comboTickets.getSelectedItem();
+            double value = parseDouble(this.txtPay.getText());
+            String type = (String)this.comboType.getSelectedItem();
+            Function function = this.controlerFunction.toList().get(this.tblFunction.getSelectedRow());
+            Chair chair = this.controlerChair.toList().get(this.tblchair.getSelectedRow());
+            User user = this.controlerUser.toList().get(comboUsers.getSelectedIndex());
+            Ticket ticket = new Ticket(id, value, type);
+            ticket.setFunction(function);
+            ticket.setChair(chair);
+            ticket.setUser(user);
+            this.controlerTickets.update(ticket);
+            
+            this.tableTicketUpdate(this.controlerTickets.toList());
+        
+         }else{
+             JOptionPane.showMessageDialog(rootPane, "fill all the gaps");
+         }
+       } else {
+            JOptionPane.showMessageDialog(rootPane, "select an id ticket");
+       }
     }//GEN-LAST:event_btnTicketUpdateActionPerformed
 
     private void btnMovieCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMovieCreateActionPerformed
@@ -690,12 +711,75 @@ public class Prueba extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnMovieDeleteActionPerformed
 
+    private void btnTicketCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTicketCreateActionPerformed
+      if (this.comboUsers.getSelectedIndex() != -1 &&this.tblchair.getSelectedRow() != -1 && this.tblFunction.getSelectedRow() != -1 && !"".equals(this.txtPay.getText())  ){
+          Ticket ticket = new Ticket(Double.parseDouble(this.txtPay.getText()), this.comboType.getItemAt(this.comboType.getSelectedIndex()));
+          Function function = this.controlerFunction.toList().get(tblFunction.getSelectedRow());
+          Chair chair = this.controlerChair.toList().get(this.tblchair.getSelectedRow());
+          User user = this.controlerUser.toList().get(this.comboUsers.getSelectedIndex());
+          System.out.println(user);
+          System.out.println(user);
+          ticket.setFunction(function);
+          ticket.setChair(chair);
+          ticket.setUser(user);
+          if (this.controlerTickets.create(ticket)){
+               JOptionPane.showMessageDialog(this, "creation succesfully");
+           tableTicketUpdate(this.controlerTickets.toList());
+           this.txtPay.setText("");
+           showTickets();
+          }
+          
+         
+      } else{
+          JOptionPane.showMessageDialog(this, "fill all the gaps");
+      }
+    }//GEN-LAST:event_btnTicketCreateActionPerformed
+
+    private void comboUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboUsersActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboUsersActionPerformed
+
+    private void comboTicketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTicketsActionPerformed
+       //this.controlerTickets.toList();
+    }//GEN-LAST:event_comboTicketsActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+      if (!txtId.getText().equals("")){
+          Ticket ticket= this.controlerTickets.watch(txtId.getText());
+          this.lblInfo.setText("id: "+ticket.getId()+"\n"+
+                   "Type: "+ ticket.getType()+"\n "+
+                 "pay value: " + ticket.getPayValue() +"\n " + 
+                   "Function: \n" +"    "+ticket.getFunction().getDate()+ "\n" +
+                  "     "+ ticket.getFunction().getHour() + "\n"+
+                  "     " + ticket.getFunction().getRefMovie().getName()+ "\n" +
+                  "     "+ ticket.getFunction().getRefLivingRoom().getName() + "\\n"+
+                  "Chair: "+"\n"+
+                  ticket.getChair().getLetter()+" " +ticket.getChair().getNumber()+ "\n"+
+                  "User: " + "\n"+ 
+                  "     "+ ticket.getUser().getIdent()+ "\n"+
+                  "     "+ ticket.getUser().getName()+ "\n"+
+                  "     "+ ticket.getUser().getBirthDate());
+      } else {
+          JOptionPane.showMessageDialog(this, "you must insert an id ticket");
+      }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       if (this.tblTickets.getSelectedRow() != -1){
+            Ticket ticket =this.controlerTickets.toList().get(this.tblTickets.getSelectedRow());
+            controlerTickets.delete(ticket);
+            this.tableTicketUpdate(controlerTickets.toList());
+           this.showTickets();
+       } else {
+           JOptionPane.showMessageDialog(rootPane, "you must select an item from de table ");
+       }
+          
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void Setimagas() {
         btnTicketCreate.setIcon(SetIcon("/image/idea.png", btnTicketCreate));
         btnTicketUpdate.setIcon(SetIcon("/image/update.png", btnTicketUpdate));
-        btnTicketTolist.setIcon(SetIcon("/image/prueba.png", btnTicketTolist));
-        btnTicketSearch.setIcon(SetIcon("/image/search.png", btnTicketSearch));
-        btnTicketDelete.setIcon(SetIcon("/image/delete.png", btnTicketDelete));
         btnUsersUpdate.setIcon(SetIcon("/image/update.png", btnUsersUpdate));
         btnUsersCreate.setIcon(SetIcon("/image/idea.png", btnUsersCreate));
         btnUsersDelete.setIcon(SetIcon("/image/delete.png", btnUsersDelete));
@@ -710,7 +794,7 @@ public class Prueba extends javax.swing.JFrame {
         setImage(lblFondoTicket, "src/image/fondo.jpg");
         setImage(lblUsers, "src/image/fondo.jpg");
         setImage(lblFondoMovie, "src/image/fondo.jpg");
-        setImage(lblFondFandR, "src/image/fondo.jpg");
+       // setImage(lblFondFandR, "src/image/fondo.jpg");
 
     }
 
@@ -776,7 +860,7 @@ public class Prueba extends javax.swing.JFrame {
         }
 
     }
-    public void tableUserTicket(LinkedList<User> listUsers) {
+   /* public void tableUserTicket(LinkedList<User> listUsers) {
         String columName[] = {"Id", "Name", "ticket", "identification", "birth of Date"};
         DefaultTableModel miModelo = new DefaultTableModel(null, columName);
         this.tblUserTicket.setModel(miModelo);
@@ -794,7 +878,7 @@ public class Prueba extends javax.swing.JFrame {
 
     }
     
-   
+ */  
     public boolean checkNotTicket(User user) {
         boolean bandera = true;
 
@@ -820,13 +904,79 @@ public class Prueba extends javax.swing.JFrame {
 
     }
     
+    public void tableChairUpdate(LinkedList<Chair> chairList){
+        String columName[] = {"id","letter", "number"};
+        DefaultTableModel miModelo = new DefaultTableModel(null, columName);
+        this.tblchair.setModel(miModelo);
+        for (Chair chair :chairList ){
+            String fila[] = new String [columName.length];
+            fila [0] = chair.getId();
+            fila [1] = ""+chair.getLetter();
+            fila [2] = ""+chair.getNumber();
+            miModelo.addRow(fila);
+            
+        }
+        
+    }
+    
+    public void tableFunctionUpdate(LinkedList <Function> functions){
+                String columName[] = {"id", "hour","date", "movie", "room"};
+        DefaultTableModel miModelo = new DefaultTableModel(null, columName);
+        this.tblFunction.setModel(miModelo);
+        for (Function function :functions ){
+            String fila[] = new String [columName.length];
+            fila [0] = function.getId();
+            fila [1] = ""+function.getHour();
+            fila [2] = ""+function.getDate();
+            fila [3] = function.getRefMovie().getName();
+            fila [4] = function.getRefLivingRoom().getName();
+            miModelo.addRow(fila);
+            
+        }
+        
+    }
+        public void tableTicketUpdate(LinkedList <Ticket> tickets){
+                String columName[] = {"id","value", "type", "function","chair", "user"};
+        DefaultTableModel miModelo = new DefaultTableModel(null, columName);
+        this.tblTickets.setModel(miModelo);
+        for (Ticket ticket :tickets ){
+            String fila[] = new String [columName.length];
+            fila [0] = ticket.getId();
+            fila [1] = ""+ticket.getPayValue();
+            fila [2] = ticket.getType();
+            fila [3] = ticket.getFunction().getRefMovie().getName()+", "+ ticket.getFunction().getDate()+", "+ ticket.getFunction().getHour();
+            fila [4] = ticket.getChair().getLetter()+", " + ticket.getChair().getNumber();
+            fila [5] = ticket.getUser().getName();
+            miModelo.addRow(fila);
+            
+        }
+        
+    }
+    
     
     public void toList() {
         tableMovieUpdate(this.controlerMovie.toList());
         tableUserUpdate(controlerUser.toList());
-        tableUserTicket(controlerUser.toList());
+        tableChairUpdate(this.controlerChair.toList());
+        tableFunctionUpdate(this.controlerFunction.toList());
+        System.out.println("this.controlerFunction.toList()");
+        LinkedList <User> userList =this.controlerUser.toList();
+        for (User user: userList){
+             comboUsers.addItem(user.getIdent());
+        }
+      showTickets();
+      //  tableUserTicket(controlerUser.toList());
 
     }
+    
+    public void showTickets(){
+          LinkedList <Ticket> tickets = this.controlerTickets.toList();
+        for (Ticket ticket : tickets){
+            this.comboTickets.addItem(ticket.getId());
+        }
+       this.tableTicketUpdate(tickets);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Delete;
     private javax.swing.JComboBox<String> boxTypeMovie;
@@ -836,21 +986,18 @@ public class Prueba extends javax.swing.JFrame {
     private javax.swing.JButton btnMovieToList;
     private javax.swing.JButton btnMovieUpdate;
     private javax.swing.JButton btnTicketCreate;
-    private javax.swing.JButton btnTicketDelete;
-    private javax.swing.JButton btnTicketSearch;
-    private javax.swing.JButton btnTicketTolist;
     private javax.swing.JButton btnTicketUpdate;
     private javax.swing.JButton btnUsersCreate;
     private javax.swing.JButton btnUsersDelete;
     private javax.swing.JButton btnUsersSearch;
     private javax.swing.JButton btnUsersTolist;
     private javax.swing.JButton btnUsersUpdate;
+    private javax.swing.JComboBox<String> comboTickets;
+    private javax.swing.JComboBox<String> comboType;
+    private javax.swing.JComboBox<String> comboUsers;
     private javax.swing.JPanel fondo2Ticket;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -859,14 +1006,10 @@ public class Prueba extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
@@ -896,20 +1039,24 @@ public class Prueba extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPaneTicket;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JLabel lblFondFandR;
     private javax.swing.JLabel lblFondoMovie;
     private javax.swing.JLabel lblFondoTicket;
+    private javax.swing.JLabel lblInfo;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblUserId;
     private javax.swing.JLabel lblUsers;
+    private javax.swing.JTable tblFunction;
     private javax.swing.JTable tblMovie;
-    private javax.swing.JTable tblUserTicket;
+    private javax.swing.JTable tblTickets;
     private javax.swing.JTable tblUsers;
-    private javax.swing.JTextField txtIdPanelTicket;
+    private javax.swing.JTable tblchair;
+    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtMovieID;
     private javax.swing.JTextField txtNameMovie;
+    private javax.swing.JTextField txtPay;
     private javax.swing.JTextField txtUserBirthDatUser;
     private javax.swing.JTextField txtUserIdUser;
     private javax.swing.JTextField txtUserIdentUser;

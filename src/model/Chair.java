@@ -13,7 +13,7 @@ import org.json.simple.JSONObject;
 public class Chair {
     private String id;
     private String letter;
-    private int number;
+    private long number;
 
     public Chair() {
     }
@@ -25,11 +25,22 @@ public class Chair {
     }
     
         public void toObject(JSONObject chairJSON){
-        this.id=chairJSON.get("id").toString();
+            System.out.println("entro");
+        this.id=(String)chairJSON.get("_id");
+            System.out.println("leyoid");
         this.letter=(String)chairJSON.get("letter");
-        this.number=(int)chairJSON.get("number");
+            System.out.println("leyosilla");
+        this.number=(long)chairJSON.get("number");
+            System.out.println("leyonumero");
         }
         
+        public JSONObject toJSON (){
+            JSONObject chairJSON= new JSONObject();
+            chairJSON.put("_id", this.getId());
+            chairJSON.put("letter", this.getLetter());
+            chairJSON.put("number", this.getNumber());
+            return chairJSON;
+        }
 
     /**
      * @return the id
@@ -62,14 +73,14 @@ public class Chair {
     /**
      * @return the number
      */
-    public int getNumber() {
+    public long getNumber() {
         return number;
     }
 
     /**
      * @param number the number to set
      */
-    public void setNumber(int number) {
+    public void setNumber(long number) {
         this.number = number;
     }
     

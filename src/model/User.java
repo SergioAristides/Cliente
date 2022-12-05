@@ -29,16 +29,27 @@ public class User {
   
     
     public void toObject(JSONObject userJSON){
+    
         this.id=(String)userJSON.get("_id");
         this.name=(String)userJSON.get("name");
         this.ident=(String)userJSON.get("identification");
         this.birthDate=(String)userJSON.get("born_date");
+        
     }
         public JSONObject toJSON() {
         JSONObject userJSON=new JSONObject();
-        userJSON.put("name", this.getName());
+        if (id.equals("")){
+            userJSON.put("name", this.getName());
         userJSON.put("born_date", this.getBirthDate());
         userJSON.put("identification", this.getIdent());
+        return userJSON;
+        } else {
+            userJSON.put("_id", this.getId());
+            userJSON.put("name", this.getName());
+        userJSON.put("born_date", this.getBirthDate());
+        userJSON.put("identification", this.getIdent());
+        }
+        
         return userJSON;
     }
 

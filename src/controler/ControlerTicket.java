@@ -6,6 +6,7 @@ package controler;
 
 import java.util.LinkedList;
 import model.Ticket;
+import model.User;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -23,13 +24,28 @@ public class ControlerTicket {
     }
     
                public boolean create(Ticket theTicket) {
-        boolean respuesta = false;
-        return respuesta;
+                  boolean creado = false;
+       String respuesta=serviceTicket.POST("tickets",theTicket.toJSON());
+               try {
+            JSONParser parser = new JSONParser();
+                   System.out.println("bien");
+            JSONObject ticketJSON = (JSONObject) parser.parse(respuesta);
+                   System.out.println("se leyo el json");
+            theTicket = new Ticket();
+                   System.out.println(ticketJSON);
+            theTicket.toObject(ticketJSON);
+                   System.out.println("se paso a objeto");
+            creado=true;
+        } catch (Exception e) {
+            System.out.println("error " + e);
+        }
+        
+        return creado; 
     }
 
     public Ticket watch(String id) {
         Ticket theTicket = null;
-        String response = serviceTicket.GET("functions/" + id);
+        String response = serviceTicket.GET("tickets/" + id);
         try {
             JSONParser parser = new JSONParser();
             JSONObject ticketJSON = (JSONObject) parser.parse(response);
@@ -55,20 +71,37 @@ public class ControlerTicket {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("aun no hay elementos ");
         }
         return listTickets;
     }
         
-        public boolean edit(Ticket theTicket) {
-        boolean response = false;
+      public boolean update(Ticket ticket) {
+        boolean edit = false;
+                try {
+            String respuesta= serviceTicket.PUT("tickets/"+ticket.getId(),ticket.toJSON());
+            JSONParser parser = new JSONParser();
+            JSONObject estudianteJSON = (JSONObject) parser.parse(respuesta);
+            ticket = new Ticket();
+            ticket.toObject(estudianteJSON);
+            edit=true;
+        } catch (Exception e) {
+            System.out.println("error " + e);
+        }
 
-        return response;
+        return edit;
     }
 
-    public boolean delete(Ticket thetTicket) {
-        boolean response = false;
-
-        return response;
+    public boolean delete(Ticket theTicket) {
+         boolean delete = false;
+      
+       try {
+             String respuesta=this.serviceTicket.DELETE("tickets/"+theTicket.getId());
+            delete=true;
+        } catch (Exception e) {
+            System.out.println("error " + e);
+        }
+        return delete;
     }
 }
     

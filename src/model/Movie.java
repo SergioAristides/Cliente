@@ -30,17 +30,28 @@ public class Movie {
     
     public JSONObject toJSON() {
         JSONObject movieJSON=new JSONObject();
-        movieJSON.put("name", this.getName());
+        if (this.id.equals("")){
+            movieJSON.put("name", this.getName());
         movieJSON.put("year", this.getYear());
         movieJSON.put("type", this.getType());
+        } else {
+            movieJSON.put("_id",this.getId());
+            movieJSON.put("name", this.getName());
+        movieJSON.put("year", this.getYear());
+        movieJSON.put("type", this.getType());
+        }
+        
         return movieJSON;
     }
+    
     
        public void toObject(JSONObject movieJSON){
         this.id=(String)movieJSON.get("_id");
         this.year=(long)movieJSON.get("year");
         this.name=(String)movieJSON.get("name");
         this.type=(String)movieJSON.get("type");
+        
+        
     }
     /**
      * @return the id
