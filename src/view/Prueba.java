@@ -151,6 +151,7 @@ public class Prueba extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         txtId = new javax.swing.JTextField();
         lblInfo = new javax.swing.JLabel();
+        lblFondoTicketInfo = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
 
@@ -529,6 +530,9 @@ public class Prueba extends javax.swing.JFrame {
         jPanel5.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 160, 160, 20));
         jPanel5.add(lblInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 370, 1230, 120));
 
+        lblFondoTicketInfo.setText("jLabel16");
+        jPanel5.add(lblFondoTicketInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 670));
+
         jLabel17.setText("(Insert Id)");
         jPanel5.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 130, -1, -1));
 
@@ -717,14 +721,16 @@ public class Prueba extends javax.swing.JFrame {
           Function function = this.controlerFunction.toList().get(tblFunction.getSelectedRow());
           Chair chair = this.controlerChair.toList().get(this.tblchair.getSelectedRow());
           User user = this.controlerUser.toList().get(this.comboUsers.getSelectedIndex());
-          System.out.println(user);
-          System.out.println(user);
+    
           ticket.setFunction(function);
           ticket.setChair(chair);
           ticket.setUser(user);
+            user.setTicket(ticket);
+        
           if (this.controlerTickets.create(ticket)){
                JOptionPane.showMessageDialog(this, "creation succesfully");
            tableTicketUpdate(this.controlerTickets.toList());
+              this.tableUserUpdate(this.controlerUser.toList());
            this.txtPay.setText("");
            showTickets();
           }
@@ -770,6 +776,7 @@ public class Prueba extends javax.swing.JFrame {
             controlerTickets.delete(ticket);
             this.tableTicketUpdate(controlerTickets.toList());
            this.showTickets();
+           
        } else {
            JOptionPane.showMessageDialog(rootPane, "you must select an item from de table ");
        }
@@ -794,8 +801,7 @@ public class Prueba extends javax.swing.JFrame {
         setImage(lblFondoTicket, "src/image/fondo.jpg");
         setImage(lblUsers, "src/image/fondo.jpg");
         setImage(lblFondoMovie, "src/image/fondo.jpg");
-       // setImage(lblFondFandR, "src/image/fondo.jpg");
-
+         setImage(this.lblFondoTicketInfo, "src/image/fondo.jpg");
     }
 
     public int searchYear(Movie movie) {
@@ -844,7 +850,7 @@ public class Prueba extends javax.swing.JFrame {
     }
 
     public void tableUserUpdate(LinkedList<User> listUsers) {
-        String columName[] = {"Id", "Name", "ticket", "identification", "birth of Date"};
+        String columName[] = {"Id", "Name", "identification", "born date"};
         DefaultTableModel miModelo = new DefaultTableModel(null, columName);
         this.tblUsers.setModel(miModelo);
 
@@ -852,9 +858,8 @@ public class Prueba extends javax.swing.JFrame {
             String fila[] = new String[columName.length];
             fila[0] = user.getId();
             fila[1] = user.getName();
-            fila[2] = "" + user.getTicket();
-            fila[3] = "" + user.getIdent();
-            fila[4] = "" + user.getBirthDate();
+            fila[2] = "" + user.getIdent();
+            fila[3] = "" + user.getBirthDate();
             miModelo.addRow(fila);
 
         }
@@ -971,7 +976,9 @@ public class Prueba extends javax.swing.JFrame {
     
     public void showTickets(){
           LinkedList <Ticket> tickets = this.controlerTickets.toList();
+          this.comboTickets.removeAll();
         for (Ticket ticket : tickets){
+            
             this.comboTickets.addItem(ticket.getId());
         }
        this.tableTicketUpdate(tickets);
@@ -1044,6 +1051,7 @@ public class Prueba extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPaneTicket;
     private javax.swing.JLabel lblFondoMovie;
     private javax.swing.JLabel lblFondoTicket;
+    private javax.swing.JLabel lblFondoTicketInfo;
     private javax.swing.JLabel lblInfo;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblUserId;
