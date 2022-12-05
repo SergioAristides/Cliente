@@ -527,7 +527,7 @@ public class Prueba extends javax.swing.JFrame {
         });
         jPanel5.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 90, -1, -1));
         jPanel5.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 160, 160, 20));
-        jPanel5.add(lblInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 370, 690, 250));
+        jPanel5.add(lblInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 370, 1230, 120));
 
         jLabel17.setText("(Insert Id)");
         jPanel5.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 130, -1, -1));
